@@ -1,15 +1,29 @@
 const btn = document.getElementById("grid-btn");
 const container = document.getElementById("grid-container");
 
-container.style.gridTemplateColumns = "repeat(16, auto)";
-createBlocks();
+btn.addEventListener("click", createGrid);
 
-function createBlocks() {
-  for (let i = 0; i < Math.pow(16, 2); i++) {
+function createGrid() {
+  let size = getGridSize();
+
+  if (size === null) {
+    return;
+  }
+
+  container.style.gridTemplateColumns = "repeat(" + size + ", auto)";
+
+  for (let i = 0; i < Math.pow(size, 2); i++) {
     const block = document.createElement("div");
     block.className = "block";
-
     container.appendChild(block);
   }
 }
-console.log(btn.id);
+
+function getGridSize() {
+  let size = parseInt(prompt("Please, enter a number between 1 and 100", "16"));
+  if (size < 1 || size > 100 || size === NaN) {
+    alert("Invalid!");
+  } else {
+    return size;
+  }
+}
