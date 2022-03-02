@@ -24,20 +24,38 @@ function createGrid() {
       block.addEventListener("mouseover", paintBlock);
 
       function paintBlock() {
-        block.style.backgroundColor = pickRandomColor();
+        if (!block.style.backgroundColor) {
+          block.style.backgroundColor = pickRandomColor();
+          console.log(block.style.backgroundColor);
+        } else {
+          block.style.backgroundColor = darkenColor(
+            block.style.backgroundColor
+          );
+        }
         return;
       }
     }
 
     function pickRandomColor() {
-      const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
-      let color = "#";
-      for (let i = 0; i < 6; i++) {
-        color += hex[Math.floor(Math.random() * hex.length)];
-      }
-      console.log(color);
-      return color;
+      return `rgb(${randomNum()}, ${randomNum()}, ${randomNum()})`;
     }
+
+    function darkenColor(rgbColor) {
+      let rgbValues = rgbColor.match(/\d+/g);
+
+      for (let i = 0; i < 3; i++) {
+        if (rgbValues[i] > 1) {
+          rgbValues[i] -= 25;
+        } else {
+          rgbValues[i] = 0;
+        }
+      }
+      return `rgb(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]})`;
+    }
+  }
+
+  function randomNum() {
+    return Math.floor(Math.random() * 256);
   }
 
   function clearBlocks(parent) {
